@@ -81,7 +81,7 @@ app.get("/articles", function(req, res) {
       res.json(dbArticle);
     })
     .catch(function(err) {
-      // If an error occurred, send it to the client
+      // If an error occurred, send it to the clien
       res.json(err);
     });
 });
