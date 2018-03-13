@@ -1,0 +1,33 @@
+{
+  "name": "machine_scrapping",
+  "version": "1.0.0",
+  "description": "\"a simple js app to scrape data from machinery trader and iron planet based on a keyword\"",
+  "main": "server.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\"",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buddyeorl/machineScrapping.git"
+  },
+  "keywords": [
+    "mongodb",
+    "js",
+    "cheerio"
+  ],
+  "author": "Alexander Lizarraga",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buddyeorl/machineScrapping/issues"
+  },
+  "homepage": "https://github.com/buddyeorl/machineScrapping#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.3",
+    "mongoose": "^5.0.10",
+    "morgan": "^1.9.0"
+  }
+}
