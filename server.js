@@ -29,46 +29,85 @@ app.use(express.static("public"));
 // By default mongoose uses callbacks for async queries, we're setting it to use promises (.then syntax) instead
 // Connect to the Mongo DB
 mongoose.Promise = Promise;
-mongoose.connect("mongodb://localhost/week18Populater", {
-  useMongoClient: true
-});
+mongoose.connect("mongodb://localhost/week18Populater", {});
 
 // Routes
 
 // A GET route for scraping the echojs website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with request
-  axios.get("http://www.echojs.com/").then(function(response) {
+  axios.get('http://www.ironplanet.com/jsp/s/search.ips?k=320dl&sm=0').then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
+    $(".sr_grid_tile").each(function(i, element){
+      var result ={};
+      result.something = $(this)
+      
 
-    // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function(i, element) {
-      // Save an empty result object
-      var result = {};
+      link = result.something
+      .find(".sr_photo")
+      .find(".sr_photo_container")
+      .children("a")
+      .attr("href");
+      image = result.something
+      .find(".sr_photo")
+      .find(".sr_photo_container")
+      .children("a")
+      .children("img")
+      .attr("data-original");
+      details=result.something
+      .find(".sr_grid_details");
+      title=details
+      .find(".sr_equip_desc")
+      .children("a")
+      .children("span")
+      .text();
+      hours=details
+      .find(".sr_meter")
+      .children("span")
+      .text();
+      distance=details
+      .find(".sr_location")
+      .children("div")
+      .text();
+      location=details
+      .find(".sr_grid_auc_info")
+      .find(".sr_price")
+      .text();
+      console.log("Link =" + link);
+      console.log("Image =" + image);
+      console.log("Title =" + title);
+      console.log("Hours =" + hours);
+      console.log("Location =" + location);
+      console.log("Distantce =" + distance);
+    })
+    // // Now, we grab every h2 within an article tag, and do the following:
+    // $("article h2").each(function(i, element) {
+    //   // Save an empty result object
+    //   var result = {};
 
-      // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .children("a")
-        .text();
-      result.link = $(this)
-        .children("a")
-        .attr("href");
+    //   // Add the text and href of every link, and save them as properties of the result object
+    //   result.title = $(this)
+    //     .children("a")
+    //     .text();
+    //   result.link = $(this)
+    //     .children("a")
+    //     .attr("href");
 
-      // Create a new Article using the `result` object built from scraping
-      db.Article.create(result)
-        .then(function(dbArticle) {
-          // View the added result in the console
-          console.log(dbArticle);
-        })
-        .catch(function(err) {
-          // If an error occurred, send it to the client
-          return res.json(err);
-        });
-    });
+    //   // Create a new Article using the `result` object built from scraping
+    //   db.Article.create(result)
+    //     .then(function(dbArticle) {
+    //       // View the added result in the console
+    //       console.log(dbArticle);
+    //     })
+    //     .catch(function(err) {
+    //       // If an error occurred, send it to the client
+    //       return res.json(err);
+    //     });
+    // });
 
     // If we were able to successfully scrape and save an Article, send a message to the client
-    res.send("Scrape Complete");
+    res.send("Scrape Complete" + response.data);
   });
 });
 
